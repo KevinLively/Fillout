@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "./components/Pagination/Pagination";
 import FilterList from "./components/FilterList/FilterList";
+import Responses from "./components/Responses/Responses";
+import Loader from "./components/Loader/Loader";
+import FormControl from "./components/FormControl/FormControl";
+import FormHeader from "./components/FormHeader/FormHeader";
 
 const App = () => {
   const [formId, setFormId] = useState("cLZojxk94ous");
@@ -12,6 +16,21 @@ const App = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/${formId}/questions`
+        );
+        setQuestions(response.data.questions);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+    fetchFilteredResponses();
+    fetchQuestions();
+  }, []);
 
   const fetchFilteredResponses = async (page = 1) => {
     setPage(page);
@@ -54,99 +73,33 @@ const App = () => {
     setFilters(newFilters);
   };
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:4000/${formId}/questions`
-        );
-        setQuestions(response.data.questions);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-    fetchFilteredResponses();
-    fetchQuestions();
-  }, []);
-
   return (
     <div className="container">
       <form onSubmit={handleFormSubmit}>
-        <div className="field">
-          <label htmlFor="formId" className="label">
-            Form ID:
-          </label>
-          <div className="control">
-            <input
-              type="text"
-              id="formId"
-              className="input"
-              value={formId}
-              onChange={(e) => setFormId(e.target.value)}
-              required
-              disabled
-            />
-          </div>
-        </div>
-
+        <FormHeader formId={formId} setFormId={setFormId} />
         <FilterList
           filters={filters}
           questions={questions}
           handleFilterChange={handleFilterChange}
           removeFilter={removeFilter}
         />
-
-        <div className="field is-grouped">
-          <div className="control">
-            <button
-              type="button"
-              className="button is-info"
-              onClick={addFilter}
-            >
-              Add Filter
-            </button>
-          </div>
-          <div className="control">
-            <button type="submit" className="button is-info">
-              Fetch Responses
-            </button>
-          </div>
-        </div>
-
-        <Pagination
-          page={page}
-          pageCount={pageCount}
-          fetchFilteredResponses={fetchFilteredResponses}
-        />
+        <FormControl addFilter={addFilter} />
       </form>
 
-      {loading && <p>Loading...</p>}
       {error && <p className="has-text-danger">{error}</p>}
 
-      <div className="columns is-multiline">
-        {responses.map((submission, index) => (
-          <div key={index} className="column is-one-third">
-            <div className="box">
-              <div className="content">
-                <p>
-                  <strong>Submission ID:</strong> {submission.submissionId}
-                </p>
-                <p>
-                  <strong>Submission Date:</strong>{" "}
-                  {submission.submissionTime.split("T")[0]}
-                </p>
-                <ul>
-                  {submission.questions.map((question, idx) => (
-                    <li key={idx}>
-                      <strong>{question.name}:</strong> {question.value}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Responses responses={responses} />
+          <Pagination
+            page={page}
+            pageCount={pageCount}
+            fetchFilteredResponses={fetchFilteredResponses}
+          />
+        </>
+      )}
     </div>
   );
 };

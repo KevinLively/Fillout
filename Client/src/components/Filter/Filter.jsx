@@ -32,9 +32,9 @@ const Filter = ({
             </div>
           </div>
         </div>
-        <div className="field">
+        <div className="field is-expanded">
           <div className="control">
-            <div className="select">
+            <div className="select is-fullwidth">
               <select
                 value={filter.condition}
                 onChange={(e) =>
@@ -49,29 +49,31 @@ const Filter = ({
             </div>
           </div>
         </div>
-        <div className="field">
-          <div className="control">
-            <input
-              className="input"
-              placeholder="Search by Value"
-              type="text"
-              value={filter.value}
-              onChange={(e) =>
-                handleFilterChange(index, "value", e.target.value)
-              }
-              required
-            />
+        <div className="is-flex justify-content-space-between">
+          <div className="field is-expanded">
+            <div className="control">
+              <input
+                className="input is-fullwidth"
+                placeholder="Search by Value"
+                type="text"
+                value={filter.value}
+                onChange={(e) =>
+                  handleFilterChange(index, "value", e.target.value)
+                }
+                required
+              />
+            </div>
           </div>
-        </div>
-        <div className="field">
-          <div className="control">
-            <button
-              className="button is-danger"
-              type="button"
-              onClick={() => removeFilter(index)}
-            >
-              X
-            </button>
+          <div className="field ml-3">
+            <div className="control is-flex justify-content-end">
+              <button
+                className="button is-danger"
+                type="button"
+                onClick={() => removeFilter(index)}
+              >
+                X
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ Fillout is a React application designed to facilitate viewing and filtering resp
 
 # 🎥 Demo
 
-A demo of the application in action can be found [here](https://example.com).
+![here](./demo.gif).
 
 # 🔧 Local Setup Guidelines
 
@@ -21,10 +21,10 @@ A demo of the application in action can be found [here](https://example.com).
 git clone https://github.com/KevinLively/Fillout
 ```
 
-2. Navigate to the project directory:
+2. Navigate to the front-end directory:
 
 ```bash
-cd FILLOUT
+cd Client
 ```
 
 3. Install dependencies:
@@ -33,10 +33,28 @@ cd FILLOUT
 npm install
 ```
 
-4. Start both of the development server:
+4. Start the front-end development server:
 
 ```bash
 npm start
+```
+
+5. Navigate to the back-end directory from root:
+
+```bash
+cd Server
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Start the front-end development server:
+
+```bash
+nodemon
 ```
 
 5. Access the application in your browser at http://localhost:3000.

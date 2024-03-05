@@ -8,8 +8,8 @@ const FilterList = ({
   removeFilter,
 }) => {
   return (
-    <div className="container">
-      <h3 className="title is-3">Filters:</h3>
+    <div className="container mt-5">
+      <h3 className="title is-4">Filters:</h3>
       <div className="columns is-multiline">
         {filters.length ? (
           filters.map((filter, index) => (
@@ -24,7 +24,9 @@ const FilterList = ({
             </div>
           ))
         ) : (
-          <div className="column is-full">No filters applied</div>
+          <div className="column is-full has-text-centered has-text-grey">
+            No filters applied
+          </div>
         )}
       </div>
     </div>
